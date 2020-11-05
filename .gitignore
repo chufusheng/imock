@@ -1,0 +1,37 @@
+##ignore this file##
+/target/ 
+.idea
+.classpath
+.project
+.settings
+logs
+ ##filter databfile、sln file##
+*.mdb  
+*.ldb  
+*.sln
+##class file##
+*.com  
+*.class  
+*.dll  
+*.exe  
+*.o  
+*.so  
+# compression file
+*.7z  
+*.dmg  
+*.gz  
+*.iso  
+*.jar  
+*.rar  
+*.tar  
+*.zip  
+*.via
+*.tmp
+*.err 
+# OS generated files #  
+.DS_Store  
+._*  
+.Trashes
+*.iml
+*.cache
+*.cache.lock

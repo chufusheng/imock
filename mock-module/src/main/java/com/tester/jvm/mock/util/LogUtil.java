@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
  * {@link LogUtil} 日志类工具；插件没有引入日志框架可以使用{@link LogUtil} 打日志
  * <p>
  *
- * @author zhaoyb1990
+ * @author fusheng.chu
  */
 public class LogUtil {
 

@@ -32,7 +32,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * <p>
  *
- * @author zhaoyb1990
+ * @author fusheng.chu
  */
 @MetaInfServices(Module.class)
 @Information(id = com.tester.jvm.mock.Constants.MODULE_ID, author = "fusheng.chu", version = com.tester.jvm.mock.Constants.VERSION)

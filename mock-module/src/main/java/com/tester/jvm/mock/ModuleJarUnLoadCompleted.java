@@ -8,7 +8,7 @@ import org.kohsuke.MetaInfServices;
  * {@link }
  * <p>
  *
- * @author zhaoyb1990
+ * @author fusheng.chu
  */
 @MetaInfServices(ModuleJarUnLoadSpi.class)
 public class ModuleJarUnLoadCompleted implements ModuleJarUnLoadSpi {

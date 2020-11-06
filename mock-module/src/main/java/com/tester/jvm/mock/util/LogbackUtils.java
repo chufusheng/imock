@@ -14,7 +14,7 @@ import java.io.InputStream;
  * {@link LogbackUtils}
  * <p>
  *
- * @author zhaoyb1990
+ * @author fusheng.chu
  */
 public class LogbackUtils {
 

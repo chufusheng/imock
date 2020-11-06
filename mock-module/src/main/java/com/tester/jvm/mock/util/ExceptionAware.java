@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * 异常感知器
  * </p>
  *
- * @author zhaoyb1990
+ * @author fusheng.chu
  */
 public class ExceptionAware {
 

@@ -11,7 +11,7 @@ import java.util.Properties;
  * {@link PropertyUtil} 属性操作
  * <p>
  *
- * @author zhaoyb1990
+ * @author fusheng.chu
  */
 public class PropertyUtil {
 

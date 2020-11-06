@@ -20,7 +20,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * {@link HeartbeatHandler}
  * <p>
  *
- * @author zhaoyb1990
+ * @author fusheng.chu
  */
 public class HeartbeatHandler {
 

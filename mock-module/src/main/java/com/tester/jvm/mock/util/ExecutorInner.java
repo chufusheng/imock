@@ -8,7 +8,7 @@ import java.util.concurrent.*;
  * 通用线程池（非执行单一任务）
  * <p>
  *
- * @author zhaoyb1990
+ * @author fusheng.chu
  */
 public class ExecutorInner {
 

@@ -17,7 +17,7 @@ import java.util.Map;
  * 需要优化的点：init之后没有更新claCache；若运行时（agent方式启动时可能大部分cls无法缓存）新增cls，没有及时更新
  * </p>
  *
- * @author zhaoyb1990
+ * @author fusheng.chu
  */
 public class ClassloaderBridge {
 

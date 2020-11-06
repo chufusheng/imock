@@ -15,7 +15,7 @@ import java.util.List;
  * {@link DefaultConfigManager} http数据拉取
  * <p>
  *
- * @author zhaoyb1990
+ * @author fusheng.chu
  */
 public class DefaultConfigManager {
 

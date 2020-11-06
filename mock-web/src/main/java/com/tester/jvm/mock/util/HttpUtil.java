@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
  * {@link HttpUtil} 基于{@link okhttp3.OkHttpClient}封装的http请求工具
  * <p>
  *
- * @author zhaoyb1990
+ * @author fusheng.chu
  */
 public class HttpUtil {
 

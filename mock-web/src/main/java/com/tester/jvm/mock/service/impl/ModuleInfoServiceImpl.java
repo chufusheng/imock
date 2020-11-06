@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  * {@link ModuleInfoServiceImpl}
  * <p>
  *
- * @author zhaoyb1990
+ * @author fusheng.chu
  */
 @Service("ModuleInfoService")
 public class ModuleInfoServiceImpl implements ModuleInfoService {

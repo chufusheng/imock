@@ -20,7 +20,7 @@ import java.util.List;
  * <p>
  * 在线模块页面
  *
- * @author zhaoyb1990
+ * @author fusheng.chu
  */
 @RequestMapping("/module")
 @Controller

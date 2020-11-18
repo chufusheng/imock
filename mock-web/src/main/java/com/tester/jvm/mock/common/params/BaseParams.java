@@ -15,7 +15,7 @@ public class BaseParams implements java.io.Serializable {
 
     private Integer page = 1;
 
-    private Integer size = 10;
+    private Integer size = 1000;
 
     private String appName;
 
@@ -23,7 +23,7 @@ public class BaseParams implements java.io.Serializable {
 
     private String traceId;
 
-    private int isUsable = 1;
+    private Boolean isUsable = Boolean.TRUE;
 
 
 }

@@ -87,6 +87,7 @@ public class MockModule implements Module, ModuleLifecycle {
     @Override
     public void loadCompleted() {
 
+        log.info("loadCompleted");
 
         ExecutorInner.execute(new Runnable() {
             @Override

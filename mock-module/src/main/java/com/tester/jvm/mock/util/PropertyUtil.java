@@ -19,10 +19,11 @@ public class PropertyUtil {
 
     static {
         try {
+            LogUtil.info("com.tester.jvm.mock.util.PathUtils.getConfigPath()", com.tester.jvm.mock.util.PathUtils.getConfigPath());
             InputStream is = new FileInputStream(new File(com.tester.jvm.mock.util.PathUtils.getConfigPath() + "/mock.properties"));
             properties.load(is);
         } catch (Exception e) {
-            // cause this class will be load in repeater console, use this hard code mode to solve compatibility problem.
+            LogUtil.info("com.tester.jvm.mock.util.PathUtils.getConfigPath()", e);
             if (PropertyUtil.class.getClassLoader().getClass().getCanonicalName().contains("sandbox")) {
                 throw new RuntimeException("load mock.properties failed", e);
             }

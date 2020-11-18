@@ -60,6 +60,7 @@ public class HeartbeatHandler {
     }
 
     private void innerReport() {
+        LogUtil.info("innerReport start");
         Map<String, String> params = new HashMap<String, String>(8);
         params.put("appName", ApplicationModel.instance().getAppName());
         params.put("ip", ApplicationModel.instance().getHost());
@@ -69,8 +70,8 @@ public class HeartbeatHandler {
         try {
             params.put("status", moduleManager.isActivated(Constants.MODULE_ID) ? "ACTIVE" : "FROZEN");
         } catch (ModuleException e) {
-            // ignore
+            LogUtil.error("error  when  innerReport", e);
         }
-        HttpUtil.doPost(ApplicationModel.instance().getMockServiceHost()+"/module/report", params);
+        HttpUtil.doPost(ApplicationModel.instance().getMockServiceHost() + "/module/report", params);
     }
 }

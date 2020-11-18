@@ -2,13 +2,15 @@ package com.tester.jvm.mock.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.tester.jvm.mock.MockModule;
 import com.tester.jvm.mock.model.ApplicationModel;
 import com.tester.jvm.mock.model.MockConfig;
 import com.tester.jvm.mock.model.MockResult;
 import com.tester.jvm.mock.util.HttpUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
-
 
 
 /**
@@ -20,13 +22,18 @@ import java.util.List;
 public class DefaultConfigManager {
 
     private final static String DEFAULT_CONFIG_URL = ApplicationModel.instance().getMockServiceHost() + "/config/get/list?appName=%s&env=%s";
+    private final static Logger log = LoggerFactory.getLogger(DefaultConfigManager.class);
 
     public MockResult<List<MockConfig>> pullConfig() {
+
+        log.info("pullConfig Start");
+
         int retryTime = 100;
         HttpUtil.Resp resp = null;
         while (--retryTime > 0) {
             resp = HttpUtil.doGet(String.format(DEFAULT_CONFIG_URL, ApplicationModel.instance().getAppName(),
                     ApplicationModel.instance().getEnvironment()));
+            log.info(JSON.toJSONString(resp));
             if (resp.isSuccess()) {
                 break;
             }
@@ -45,6 +52,7 @@ public class DefaultConfigManager {
             });
             return listMockResult;
         } catch (Exception e) {
+            log.error("pullConfig error", e);
             return MockResult.builder().success(false).message(e.getMessage()).build();
         }
     }

@@ -44,7 +44,7 @@ public class ModuleConfig implements java.io.Serializable {
     private Boolean isThrows;
 
     @Column(name = "is_usable")
-    private int isUsable;
+    private Boolean isUsable;
 
     @Column(name = "create_time")
     private Date createTime;

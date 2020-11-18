@@ -32,6 +32,8 @@ public class ModuleConfigBO extends BaseBO {
 
     private Boolean isThrows;
 
+    private Boolean isUsable;
+
     private Date createTime;
 
     private Date updateTime;

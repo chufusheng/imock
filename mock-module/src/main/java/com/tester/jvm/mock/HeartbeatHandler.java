@@ -1,5 +1,6 @@
 package com.tester.jvm.mock;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.jvm.sandbox.api.ModuleException;
 import com.alibaba.jvm.sandbox.api.resource.ConfigInfo;
 import com.alibaba.jvm.sandbox.api.resource.ModuleManager;
@@ -60,18 +61,22 @@ public class HeartbeatHandler {
     }
 
     private void innerReport() {
-        LogUtil.info("innerReport start");
-        Map<String, String> params = new HashMap<String, String>(8);
-        params.put("appName", ApplicationModel.instance().getAppName());
-        params.put("ip", ApplicationModel.instance().getHost());
-        params.put("environment", ApplicationModel.instance().getEnvironment());
-        params.put("port", configInfo.getServerAddress().getPort() + "");
-        params.put("version", Constants.VERSION);
         try {
+            Map<String, String> params = new HashMap<String, String>(8);
+            params.put("appName", ApplicationModel.instance().getAppName());
+            params.put("ip", ApplicationModel.instance().getHost());
+            params.put("environment", ApplicationModel.instance().getEnvironment());
+            params.put("port", configInfo.getServerAddress().getPort() + "");
+            params.put("version", Constants.VERSION);
             params.put("status", moduleManager.isActivated(Constants.MODULE_ID) ? "ACTIVE" : "FROZEN");
+
+            LogUtil.info("innerReport start" +
+                    "   host=" + ApplicationModel.instance().getMockServiceHost() +
+                    "   params=" + JSON.toJSONString(params));
+
+            HttpUtil.doPost(ApplicationModel.instance().getMockServiceHost() + "/module/report", params);
         } catch (ModuleException e) {
             LogUtil.error("error  when  innerReport", e);
         }
-        HttpUtil.doPost(ApplicationModel.instance().getMockServiceHost() + "/module/report", params);
     }
 }

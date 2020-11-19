@@ -28,6 +28,7 @@ com/tester/jvm/mock/controller/ModuleConfigController.class
 com/tester/jvm/mock/common/domain/PageResult.class
 com/tester/jvm/mock/service/ModuleConfigService.class
 com/tester/jvm/mock/common/domain/BaseBO.class
+com/tester/jvm/mock/util/DateUtil.class
 com/tester/jvm/mock/util/HttpUtil$Resp.class
 com/tester/jvm/mock/service/impl/ModuleInfoServiceImpl.class
 com/tester/jvm/mock/common/params/RecordParams.class

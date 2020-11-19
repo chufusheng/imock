@@ -5,9 +5,11 @@
 /Users/pro9q/IdeaProjects/jvm-sandbox-mock/mock-module/src/main/java/com/tester/jvm/mock/util/MethodSignatureParser.java
 /Users/pro9q/IdeaProjects/jvm-sandbox-mock/mock-module/src/main/java/com/tester/jvm/mock/util/HttpUtil.java
 /Users/pro9q/IdeaProjects/jvm-sandbox-mock/mock-module/src/main/java/com/tester/jvm/mock/model/ApplicationModel.java
+/Users/pro9q/IdeaProjects/jvm-sandbox-mock/mock-module/src/main/java/com/tester/jvm/mock/util/BeansUtils.java
 /Users/pro9q/IdeaProjects/jvm-sandbox-mock/mock-module/src/main/java/com/tester/jvm/mock/Constants.java
 /Users/pro9q/IdeaProjects/jvm-sandbox-mock/mock-module/src/main/java/com/tester/jvm/mock/util/LogUtil.java
 /Users/pro9q/IdeaProjects/jvm-sandbox-mock/mock-module/src/main/java/com/tester/jvm/mock/impl/DefaultConfigManager.java
+/Users/pro9q/IdeaProjects/jvm-sandbox-mock/mock-module/src/main/java/com/tester/jvm/mock/model/ReturnObject.java
 /Users/pro9q/IdeaProjects/jvm-sandbox-mock/mock-module/src/main/java/com/tester/jvm/mock/impl/ClassloaderBridge.java
 /Users/pro9q/IdeaProjects/jvm-sandbox-mock/mock-module/src/main/java/com/tester/jvm/mock/model/MockResult.java
 /Users/pro9q/IdeaProjects/jvm-sandbox-mock/mock-module/src/main/java/com/tester/jvm/mock/util/ExceptionAware.java

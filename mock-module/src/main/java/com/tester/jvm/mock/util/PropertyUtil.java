@@ -1,5 +1,6 @@
 package com.tester.jvm.mock.util;
 
+import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
@@ -23,7 +24,7 @@ public class PropertyUtil {
             InputStream is = new FileInputStream(new File(com.tester.jvm.mock.util.PathUtils.getConfigPath() + "/mock.properties"));
             properties.load(is);
         } catch (Exception e) {
-            LogUtil.info("com.tester.jvm.mock.util.PathUtils.getConfigPath()", e);
+            LogUtil.info("com.tester.jvm.mock.util.PathUtils.getConfigPath() error", e);
             if (PropertyUtil.class.getClassLoader().getClass().getCanonicalName().contains("sandbox")) {
                 throw new RuntimeException("load mock.properties failed", e);
             }
@@ -38,6 +39,7 @@ public class PropertyUtil {
      */
 
     public static String getProperty(String key, String defaultValue) {
+        LogUtil.info("System.getProperties=   " + System.getProperties().toString());
         String property = System.getProperty(key);
         if (StringUtils.isBlank(property)) {
             property = properties.getProperty(key);

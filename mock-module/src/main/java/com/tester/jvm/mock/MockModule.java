@@ -9,13 +9,13 @@ import com.alibaba.jvm.sandbox.api.listener.ext.AdviceListener;
 import com.alibaba.jvm.sandbox.api.listener.ext.EventWatchBuilder;
 import com.alibaba.jvm.sandbox.api.resource.*;
 
+
 import com.tester.jvm.mock.impl.ClassloaderBridge;
 import com.tester.jvm.mock.impl.DefaultConfigManager;
 import com.tester.jvm.mock.model.MockConfig;
 import com.tester.jvm.mock.model.MockResult;
-import com.tester.jvm.mock.util.ExecutorInner;
-import com.tester.jvm.mock.util.LogbackUtils;
-import com.tester.jvm.mock.util.PathUtils;
+import com.tester.jvm.mock.model.ReturnObject;
+import com.tester.jvm.mock.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.kohsuke.MetaInfServices;
 import org.slf4j.Logger;
@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
 import java.io.PrintWriter;
-import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -127,6 +127,9 @@ public class MockModule implements Module, ModuleLifecycle {
                                      */
                                     @Override
                                     protected void afterReturning(Advice advice) throws Throwable {
+                                        LogUtil.info("advice   =====" + "returnObj= " + advice.getReturnObj().getClass() + "ParameterArray" + advice.getParameterArray());
+                                        LogUtil.info("mcReturnObj   =====" + mc.getReturnObj());
+
 
                                         if (StringUtils.isNoneBlank(mc.getRuleConfig())) {
                                             if (JSON.toJSONString(advice.getParameterArray()).contains(mc.getRuleConfig())) {
@@ -151,24 +154,29 @@ public class MockModule implements Module, ModuleLifecycle {
                                     @Override
                                     protected void afterReturning(Advice advice) throws Throwable {
 
+                                        LogUtil.info("advice   =======" + "returnObj= " + advice.getReturnObj().getClass() + "ParameterArray" + advice.getParameterArray());
+                                        LogUtil.info("mcReturnObj   =======" + mc.getReturnObj());
+
+
                                         if (StringUtils.isNoneBlank(mc.getRuleConfig())) {
                                             if (JSON.toJSONString(advice.getParameterArray()).contains(mc.getRuleConfig())) {
                                                 Object res = JSON.parseObject(mc.getReturnObj(), advice.getReturnObj().getClass());
                                                 ProcessController.returnImmediately(res);
                                             }
                                         } else {
-                                            // 在此，你可以通过ProcessController来改变原有方法的执行流程
-                                            Object res = JSON.parseObject(mc.getReturnObj(), advice.getReturnObj().getClass());
+                                            ReturnObject ro = JSON.parseObject(mc.getReturnObj(), ReturnObject.class);
+                                            Object res = BeansUtils.getInstance().parseByTypes(ro.getReturnData().toJSONString(), ro.getClassNames());
                                             ProcessController.returnImmediately(res);
                                         }
                                     }
                                 });
                     }
                 }
+                log.info("initialize success");
 
             } catch (Throwable throwable) {
                 initialized.compareAndSet(true, false);
-                log.error("error occurred when initialize module", throwable);
+                log.error("error occurred when initialize module" + throwable);
             }
         }
     }
@@ -193,6 +201,17 @@ public class MockModule implements Module, ModuleLifecycle {
         }
     }
 
+
+    @Command("heart")
+    public void heart() {
+        try {
+            heartbeatHandler = new com.tester.jvm.mock.HeartbeatHandler(configInfo, moduleManager);
+            heartbeatHandler.start();
+        } catch (Throwable throwable) {
+            log.error("heart error", throwable);
+        }
+    }
+
     private synchronized void reload() throws ModuleException {
         moduleController.frozen();
         // unwatch all plugin
@@ -207,5 +226,6 @@ public class MockModule implements Module, ModuleLifecycle {
         initialize((List) result.getData());
         moduleController.active();
     }
+
 
 }

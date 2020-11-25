@@ -127,18 +127,20 @@ public class MockModule implements Module, ModuleLifecycle {
                                      */
                                     @Override
                                     protected void afterReturning(Advice advice) throws Throwable {
-                                        LogUtil.info("advice   =====" + "returnObj= " + advice.getReturnObj().getClass() + "ParameterArray" + advice.getParameterArray());
+                                        LogUtil.info("advice        =====" + "returnObj= " + advice.getReturnObj().getClass() + "ParameterArray" + advice.getParameterArray());
                                         LogUtil.info("mcReturnObj   =====" + mc.getReturnObj());
 
 
                                         if (StringUtils.isNoneBlank(mc.getRuleConfig())) {
                                             if (JSON.toJSONString(advice.getParameterArray()).contains(mc.getRuleConfig())) {
-                                                Class<Throwable> throwableClass = (Class<Throwable>) Class.forName(mc.getReturnObj());
+                                                ReturnObject ro = JSON.parseObject(mc.getReturnObj(), ReturnObject.class);
+                                                Class<Throwable> throwableClass = (Class<Throwable>) Class.forName((String) ro.getReturnData().get("exceptionName"));
                                                 ProcessController.throwsImmediately(throwableClass.newInstance());
                                             }
                                         } else {
                                             //      在此，返回相应的异常
-                                            Class<Throwable> throwableClass = (Class<Throwable>) Class.forName(mc.getReturnObj());
+                                            ReturnObject ro = JSON.parseObject(mc.getReturnObj(), ReturnObject.class);
+                                            Class<Throwable> throwableClass = (Class<Throwable>) Class.forName((String) ro.getReturnData().get("exceptionName"));
                                             ProcessController.throwsImmediately(throwableClass.newInstance());
                                         }
                                     }
@@ -154,7 +156,7 @@ public class MockModule implements Module, ModuleLifecycle {
                                     @Override
                                     protected void afterReturning(Advice advice) throws Throwable {
 
-                                        LogUtil.info("advice   =======" + "returnObj= " + advice.getReturnObj().getClass() + "ParameterArray" + advice.getParameterArray());
+                                        LogUtil.info("advice        =======" + "returnObj= " + advice.getReturnObj().getClass() + "ParameterArray" + advice.getParameterArray());
                                         LogUtil.info("mcReturnObj   =======" + mc.getReturnObj());
 
 

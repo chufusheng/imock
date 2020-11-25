@@ -1,6 +1,7 @@
 package com.tester.jvm.mock.service.impl;
 
 
+import com.alibaba.fastjson.JSON;
 import com.tester.jvm.mock.common.domain.MockResult;
 import com.tester.jvm.mock.common.domain.ModuleConfigBO;
 import com.tester.jvm.mock.common.domain.PageResult;
@@ -14,7 +15,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Date;
 import java.util.stream.Collectors;
 
 /**
@@ -66,7 +66,7 @@ public class ModuleConfigServiceImpl implements ModuleConfigService {
         moduleConfig.setEnvironment(params.getEnvironment());
         moduleConfig.setMockClass(params.getMockClass());
         moduleConfig.setMockMethod(params.getMockMethod());
-        moduleConfig.setReturnObj(params.getReturnObj());
+        moduleConfig.setReturnObj(JSON.toJSONString(params.getReturnObj()));
         moduleConfig.setRuleConfig(params.getRuleConfig());
         moduleConfig.setIsUsable(params.getIsUsable());
 

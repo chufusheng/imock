@@ -3,6 +3,7 @@ package com.tester.jvm.mock.common.params;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
+import net.minidev.json.JSONObject;
 
 import javax.validation.constraints.NotNull;
 
@@ -30,6 +31,6 @@ public class ModuleConfigParams extends BaseParams {
 
     private Boolean isThrows;
 
-    private String returnObj;
+    private JSONObject returnObj;
 
 }

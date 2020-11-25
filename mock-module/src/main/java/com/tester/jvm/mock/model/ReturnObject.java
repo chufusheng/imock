@@ -2,6 +2,7 @@ package com.tester.jvm.mock.model;
 
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 
 /**
  * @author: fusheng.chu
@@ -11,7 +12,7 @@ import com.alibaba.fastjson.JSON;
 public class ReturnObject {
 
     private String[] classNames;
-    private JSON returnData;
+    private JSONObject returnData;
 
     public String[] getClassNames() {
         return classNames;
@@ -21,11 +22,11 @@ public class ReturnObject {
         this.classNames = classNames;
     }
 
-    public JSON getReturnData() {
+    public JSONObject getReturnData() {
         return returnData;
     }
 
-    public void setReturnData(JSON returnData) {
+    public void setReturnData(JSONObject returnData) {
         this.returnData = returnData;
     }
 

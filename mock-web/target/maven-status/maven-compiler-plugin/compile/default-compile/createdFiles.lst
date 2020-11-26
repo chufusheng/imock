@@ -13,6 +13,7 @@ com/tester/jvm/mock/common/domain/ModuleInfoBO.class
 com/tester/jvm/mock/common/CorsConfig.class
 com/tester/jvm/mock/common/params/ReplayParams$ReplayParamsBuilder.class
 com/tester/jvm/mock/util/HttpUtil$Resp$RespBuilder.class
+com/tester/jvm/mock/controller/LogInfoController.class
 com/tester/jvm/mock/common/domain/RecordDetailBO.class
 com/tester/jvm/mock/common/params/BaseParams.class
 com/tester/jvm/mock/common/params/RecordParams$RecordParamsBuilder.class
@@ -21,6 +22,7 @@ com/tester/jvm/mock/dal/repository/ModuleInfoRepository.class
 com/tester/jvm/mock/util/HttpUtil.class
 com/tester/jvm/mock/common/params/ModuleInfoParams.class
 com/tester/jvm/mock/common/domain/MockResult$Builder.class
+com/tester/jvm/mock/service/impl/LogServiceImpl.class
 com/tester/jvm/mock/common/domain/ModuleStatus.class
 com/tester/jvm/mock/common/domain/RecordBO.class
 com/tester/jvm/mock/common/domain/ModuleConfigBO.class
@@ -33,6 +35,7 @@ com/tester/jvm/mock/util/HttpUtil$Resp.class
 com/tester/jvm/mock/service/impl/ModuleInfoServiceImpl.class
 com/tester/jvm/mock/common/params/RecordParams.class
 com/tester/jvm/mock/common/params/ReplayParams.class
+com/tester/jvm/mock/service/LogService.class
 com/tester/jvm/mock/service/convert/ModuleInfoConverter.class
 com/tester/jvm/mock/dal/dao/ModuleInfoDao.class
 com/tester/jvm/mock/dal/model/ModuleInfo.class
@@ -42,8 +45,10 @@ com/tester/jvm/mock/service/ModuleInfoService.class
 com/tester/jvm/mock/Application.class
 com/tester/jvm/mock/common/exception/BizException.class
 com/tester/jvm/mock/service/convert/ModelConverter.class
+com/tester/jvm/mock/util/FileUtil.class
 com/tester/jvm/mock/common/domain/ResultHelper.class
 com/tester/jvm/mock/dal/repository/RecordRepository.class
+com/tester/jvm/mock/common/params/LogInfoParams.class
 com/tester/jvm/mock/dal/dao/RecordDao.class
 com/tester/jvm/mock/dal/model/ModuleConfig.class
 com/tester/jvm/mock/util/HttpUtil$1.class

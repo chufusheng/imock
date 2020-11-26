@@ -21,9 +21,5 @@ public class BaseParams implements java.io.Serializable {
 
     private String environment;
 
-    private String traceId;
-
-    private Boolean isUsable = Boolean.TRUE;
-
 
 }

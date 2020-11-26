@@ -1,9 +1,9 @@
 package com.tester.jvm.mock.common.params;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
-import net.minidev.json.JSONObject;
 
 import javax.validation.constraints.NotNull;
 
@@ -19,10 +19,6 @@ public class ModuleConfigParams extends BaseParams {
 
     private long id;
 
-    private String appName;
-
-    private String environment;
-
     private String ruleConfig;
 
     private String mockClass;
@@ -31,6 +27,9 @@ public class ModuleConfigParams extends BaseParams {
 
     private Boolean isThrows;
 
-    private JSONObject returnObj;
+    private String returnObj;
+
+    private Boolean isUsable;
+
 
 }

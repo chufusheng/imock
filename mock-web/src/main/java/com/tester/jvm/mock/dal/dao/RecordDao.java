@@ -45,9 +45,6 @@ public class RecordDao {
                     if (params.getAppName() != null && !params.getAppName().isEmpty()) {
                         predicates.add(cb.equal(root.<String>get("appName"), params.getAppName()));
                     }
-                    if (params.getTraceId() != null && !params.getTraceId().isEmpty()) {
-                        predicates.add(cb.equal(root.<String>get("traceId"), params.getTraceId()));
-                    }
                     return cb.and(predicates.toArray(new Predicate[0]));
                 },
                 pageable

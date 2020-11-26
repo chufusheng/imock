@@ -24,6 +24,7 @@ com/tester/jvm/mock/Constants.class
 com/tester/jvm/mock/util/PropertyUtil.class
 com/tester/jvm/mock/model/MockConfig.class
 META-INF/services/com.alibaba.jvm.sandbox.api.spi.ModuleJarUnLoadSpi
+com/tester/jvm/mock/util/FileUtil.class
 com/tester/jvm/mock/HeartbeatHandler.class
 com/tester/jvm/mock/util/SPILoader.class
 com/tester/jvm/mock/util/HttpUtil$1.class

@@ -1,6 +1,7 @@
 package com.tester.jvm.mock.service.convert;
 
 
+import com.alibaba.fastjson.JSON;
 import com.tester.jvm.mock.common.domain.ModuleConfigBO;
 import com.tester.jvm.mock.dal.model.ModuleConfig;
 import com.tester.jvm.mock.util.DateUtil;
@@ -23,6 +24,7 @@ public class ModuleConfigConverter implements ModelConverter<ModuleConfig, Modul
     public ModuleConfigBO convert(ModuleConfig source) {
         ModuleConfigBO bo = new ModuleConfigBO();
         BeanUtils.copyProperties(source, bo);
+        bo.setIsUsable(source.getIsUsable() == 1 ? true : false);
         return bo;
     }
 

@@ -1,5 +1,6 @@
 package com.tester.jvm.mock.common.domain;
 
+import com.alibaba.fastjson.JSONObject;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;

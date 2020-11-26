@@ -1,12 +1,11 @@
 package com.tester.jvm.mock.controller;
 
 
-import com.tester.jvm.mock.common.domain.MockResult;
-import com.tester.jvm.mock.common.domain.ModuleConfigBO;
-import com.tester.jvm.mock.common.domain.PageResult;
+import com.tester.jvm.mock.common.domain.*;
 import com.tester.jvm.mock.common.params.ModuleConfigParams;
 import com.tester.jvm.mock.dal.model.ModuleConfig;
 import com.tester.jvm.mock.service.ModuleConfigService;
+import com.tester.jvm.mock.service.ModuleInfoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +25,8 @@ public class ModuleConfigController {
     @Resource
     private ModuleConfigService moduleConfigService;
 
+    @Resource
+    private ModuleInfoService moduleInfoService;
 
     @PostMapping("get/list")
     @ResponseBody
@@ -37,10 +38,14 @@ public class ModuleConfigController {
     @GetMapping("get/list")
     @ResponseBody
     public PageResult<ModuleConfigBO> getList(@RequestParam String appName, @RequestParam String env) {
-
+        MockResult<ModuleInfoBO> moduleInfoBOMockResult = moduleInfoService.query(appName);
+        if (moduleInfoBOMockResult.getData().getStatus() == ModuleStatus.FROZEN) {
+            return null;
+        }
         ModuleConfigParams params = new ModuleConfigParams();
         params.setAppName(appName);
         params.setEnvironment(env);
+        params.setIsUsable(Boolean.TRUE);
         return moduleConfigService.list(params);
     }
 
@@ -49,6 +54,13 @@ public class ModuleConfigController {
     @ResponseBody
     public MockResult<ModuleConfigBO> saveOrUpdate(@RequestBody ModuleConfigParams params) {
         return moduleConfigService.saveOrUpdate(params);
+    }
+
+
+    @PostMapping("status")
+    @ResponseBody
+    public MockResult<String> stopAndOpen(@RequestBody ModuleConfigParams params) {
+        return moduleConfigService.stopAndOpen(params);
     }
 
 }

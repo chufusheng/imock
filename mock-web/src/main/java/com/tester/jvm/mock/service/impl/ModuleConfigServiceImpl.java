@@ -1,7 +1,6 @@
 package com.tester.jvm.mock.service.impl;
 
 
-import com.alibaba.fastjson.JSON;
 import com.tester.jvm.mock.common.domain.MockResult;
 import com.tester.jvm.mock.common.domain.ModuleConfigBO;
 import com.tester.jvm.mock.common.domain.PageResult;
@@ -60,18 +59,24 @@ public class ModuleConfigServiceImpl implements ModuleConfigService {
     @Override
     public MockResult<ModuleConfigBO> saveOrUpdate(ModuleConfigParams params) {
 
-        ModuleConfig  moduleConfig = new ModuleConfig();
+        ModuleConfig moduleConfig = new ModuleConfig();
         moduleConfig.setId(params.getId());
         moduleConfig.setAppName(params.getAppName());
         moduleConfig.setEnvironment(params.getEnvironment());
         moduleConfig.setMockClass(params.getMockClass());
         moduleConfig.setMockMethod(params.getMockMethod());
-        moduleConfig.setReturnObj(JSON.toJSONString(params.getReturnObj()));
-        moduleConfig.setRuleConfig(params.getRuleConfig());
-        moduleConfig.setIsUsable(params.getIsUsable());
+        moduleConfig.setReturnObj(params.getReturnObj());
+        moduleConfig.setRuleConfig(params.getRuleConfig() == null ? "" : params.getRuleConfig());
+        moduleConfig.setIsUsable(1);
 
         ModuleConfig callback = moduleConfigDao.saveOrUpdate(moduleConfig);
         return ResultHelper.success(moduleConfigConverter.convert(callback));
+    }
+
+    @Override
+    public MockResult<String> stopAndOpen(ModuleConfigParams params) {
+        moduleConfigDao.stopAndOpen(params.getId(), params.getIsUsable() ? 0 : 1);
+        return ResultHelper.success("success");
     }
 
     @Override

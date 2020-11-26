@@ -21,5 +21,8 @@ public interface ModuleConfigService {
 
     MockResult<ModuleConfigBO> saveOrUpdate(ModuleConfigParams params);
 
+    MockResult<String> stopAndOpen(ModuleConfigParams params);
+
+
     MockResult<ModuleConfig> push(ModuleConfigParams params);
 }

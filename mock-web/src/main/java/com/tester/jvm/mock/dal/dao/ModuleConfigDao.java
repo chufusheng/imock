@@ -40,6 +40,9 @@ public class ModuleConfigDao {
                     if (params.getEnvironment() != null && !params.getEnvironment().isEmpty()) {
                         predicates.add(cb.equal(root.<String>get("environment"), params.getEnvironment()));
                     }
+                    if (params.getIsUsable() != null) {
+                        predicates.add(cb.equal(root.<String>get("isUsable"), params.getIsUsable() ? 1 : 0));
+                    }
                     return cb.and(predicates.toArray(new Predicate[0]));
                 },
                 pageable
@@ -48,6 +51,10 @@ public class ModuleConfigDao {
 
     public ModuleConfig query(ModuleConfigParams params) {
         return moduleConfigRepository.findByAppNameAndEnvironment(params.getAppName(), params.getEnvironment());
+    }
+
+    public int stopAndOpen(long id, int isUsable) {
+       return moduleConfigRepository.updateStateById(id, isUsable);
     }
 
     public ModuleConfig saveOrUpdate(ModuleConfig moduleConfig) {

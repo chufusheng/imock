@@ -66,6 +66,7 @@ public class ModuleConfigServiceImpl implements ModuleConfigService {
         moduleConfig.setMockClass(params.getMockClass());
         moduleConfig.setMockMethod(params.getMockMethod());
         moduleConfig.setReturnObj(params.getReturnObj());
+        moduleConfig.setIsThrows(params.getIsThrows());
         moduleConfig.setRuleConfig(params.getRuleConfig() == null ? "" : params.getRuleConfig());
         moduleConfig.setIsUsable(1);
 

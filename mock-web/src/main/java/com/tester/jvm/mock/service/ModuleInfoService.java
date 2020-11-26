@@ -23,7 +23,7 @@ public interface ModuleInfoService {
 
     MockResult<String> install(ModuleInfoParams params);
 
-    MockResult<String> reload(String appName);
+    MockResult<String> reload(ModuleInfoParams params);
 
 
 }

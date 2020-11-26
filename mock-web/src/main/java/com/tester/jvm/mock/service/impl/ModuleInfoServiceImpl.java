@@ -30,9 +30,9 @@ import java.util.stream.Collectors;
 @Service("ModuleInfoService")
 public class ModuleInfoServiceImpl implements ModuleInfoService {
 
-    private static String activeURI = "http://%s:%s/sandbox/default/module/http/mock/active";
+    private static String activeURI = "http://%s:%s/sandbox/default/module/http/sandbox-module-mgr/frozen?ids=mock";
 
-    private static String frozenURI = "http://%s:%s/sandbox/default/module/http/mock/frozen";
+    private static String frozenURI = "http://%s:%s/sandbox/default/module/http/sandbox-module-mgr/frozen?ids=mock";
 
     private static String reloadURI = "http://%s:%s/sandbox/default/module/http/mock/reload";
 
@@ -93,6 +93,18 @@ public class ModuleInfoServiceImpl implements ModuleInfoService {
         return execute(frozenURI, params, ModuleStatus.FROZEN);
     }
 
+
+
+    @Override
+    public MockResult<String> reload(ModuleInfoParams params) {
+        ModuleInfo moduleInfo = moduleInfoDao.findByAppNameAndEnvironment(params.getAppName(), params.getEnvironment());
+        if (moduleInfo == null) {
+            return ResultHelper.fail("data not exist");
+        }
+        HttpUtil.Resp resp = HttpUtil.doGet(String.format(reloadURI, moduleInfo.getIp(), moduleInfo.getPort()));
+        return ResultHelper.fs(resp.isSuccess());
+    }
+
     @Override
     public MockResult<String> install(ModuleInfoParams params) {
 
@@ -141,16 +153,6 @@ public class ModuleInfoServiceImpl implements ModuleInfoService {
             }
         }
         return ResultHelper.fail();
-    }
-
-    @Override
-    public MockResult<String> reload(String appName) {
-        ModuleInfo moduleInfo = moduleInfoDao.findByAppName(appName);
-        if (moduleInfo == null) {
-            return ResultHelper.fail("data not exist");
-        }
-        HttpUtil.Resp resp = HttpUtil.doGet(String.format(reloadURI, moduleInfo.getIp(), moduleInfo.getPort()));
-        return ResultHelper.fs(resp.isSuccess());
     }
 
 

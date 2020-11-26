@@ -32,6 +32,10 @@ public class ModuleInfoDao {
         return moduleInfoRepository.findByAppName(appName);
     }
 
+    public ModuleInfo findByAppNameAndEnvironment(String appName, String environment) {
+        return moduleInfoRepository.findByAppNameAndEnvironment(appName, environment);
+    }
+
     public Page<ModuleInfo> selectByParams(@NotNull final ModuleInfoParams params) {
         Pageable pageable = PageRequest.of(params.getPage() - 1, params.getSize(), Sort.by(Sort.Direction.DESC, "id"));
         return moduleInfoRepository.findAll(
@@ -61,7 +65,7 @@ public class ModuleInfoDao {
     }
 
     public ModuleInfo save(ModuleInfo params) {
-        ModuleInfo mi =  moduleInfoRepository.findByAppName(params.getAppName());
+        ModuleInfo mi = moduleInfoRepository.findByAppName(params.getAppName());
         if (mi != null) {
             params.setId(mi.getId());
         }

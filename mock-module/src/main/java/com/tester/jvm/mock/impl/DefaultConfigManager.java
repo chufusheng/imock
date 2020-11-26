@@ -26,33 +26,34 @@ public class DefaultConfigManager {
 
     public MockResult<List<MockConfig>> pullConfig() {
 
-        log.info("pullConfig Start");
+        log.info("pullConfig       Start");
 
         int retryTime = 100;
         HttpUtil.Resp resp = null;
         while (--retryTime > 0) {
             resp = HttpUtil.doGet(String.format(DEFAULT_CONFIG_URL, ApplicationModel.instance().getAppName(),
                     ApplicationModel.instance().getEnvironment()));
-            log.info(JSON.toJSONString(resp));
             if (resp.isSuccess()) {
+                log.info("pullConfig     success");
                 break;
+            }else {
+                log.error("pullConfig     failed");
             }
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
-                // ignore
                 break;
             }
         }
         if (resp == null) {
-            throw new RuntimeException("pull repeater config failed, remain retry time is " + retryTime);
+            throw new RuntimeException("pull mock config failed, remain retry time is " + retryTime);
         }
         try {
             MockResult<List<MockConfig>> listMockResult = JSON.parseObject(resp.getBody(), new TypeReference<MockResult<List<MockConfig>>>() {
             });
             return listMockResult;
         } catch (Exception e) {
-            log.error("pullConfig error", e);
+            log.error("pullConfig Exception    =====", e);
             return MockResult.builder().success(false).message(e.getMessage()).build();
         }
     }

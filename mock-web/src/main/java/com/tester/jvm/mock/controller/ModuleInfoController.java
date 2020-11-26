@@ -4,11 +4,10 @@ package com.tester.jvm.mock.controller;
 import com.tester.jvm.mock.common.domain.MockResult;
 import com.tester.jvm.mock.common.domain.ModuleInfoBO;
 import com.tester.jvm.mock.common.domain.PageResult;
-import com.tester.jvm.mock.common.domain.PagerAdapter;
+import com.tester.jvm.mock.common.domain.ResultHelper;
 import com.tester.jvm.mock.common.params.ModuleInfoParams;
 import com.tester.jvm.mock.service.ModuleInfoService;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -66,9 +65,25 @@ public class ModuleInfoController {
     }
 
     @ResponseBody
-    @RequestMapping("/reload")
-    public MockResult<String> reload(@RequestParam String appName) {
-        return moduleInfoService.reload(appName);
+    @RequestMapping("reload")
+    public MockResult<String> reload(@RequestBody ModuleInfoParams params) {
+        return moduleInfoService.reload(params);
+    }
+
+    @ResponseBody
+    @RequestMapping("frozenOrActive")
+    public MockResult<String> frozenOrActive(@RequestBody ModuleInfoParams params) {
+        try {
+            if (params.getStatus().equals("ACTIVE")) {
+                moduleInfoService.frozen(params);
+            } else {
+                moduleInfoService.active(params);
+            }
+        } catch (Exception e) {
+            ResultHelper.fail();
+        }
+
+        return ResultHelper.success();
     }
 
 

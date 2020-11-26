@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# repeater's target dir
+# mock's target dir
 MOCK_TARGET_DIR=../target/mock
 
 # exit shell with err_code

@@ -20,11 +20,11 @@ public class PropertyUtil {
 
     static {
         try {
-            LogUtil.info("com.tester.jvm.mock.util.PathUtils.getConfigPath()", com.tester.jvm.mock.util.PathUtils.getConfigPath());
+            LogUtil.info("PathUtils.getConfigPath()   ===== "+ com.tester.jvm.mock.util.PathUtils.getConfigPath());
             InputStream is = new FileInputStream(new File(com.tester.jvm.mock.util.PathUtils.getConfigPath() + "/mock.properties"));
             properties.load(is);
         } catch (Exception e) {
-            LogUtil.info("com.tester.jvm.mock.util.PathUtils.getConfigPath() error", e);
+            LogUtil.error("com.tester.jvm.mock.util.PathUtils.getConfigPath() error", e);
             if (PropertyUtil.class.getClassLoader().getClass().getCanonicalName().contains("sandbox")) {
                 throw new RuntimeException("load mock.properties failed", e);
             }
@@ -39,7 +39,8 @@ public class PropertyUtil {
      */
 
     public static String getProperty(String key, String defaultValue) {
-        LogUtil.info("System.getProperties=   " + System.getProperties().toString());
+        LogUtil.info("System.getProperties    ======== " + key + ":" + System.getProperty(key));
+
         String property = System.getProperty(key);
         if (StringUtils.isBlank(property)) {
             property = properties.getProperty(key);

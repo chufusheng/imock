@@ -70,7 +70,7 @@ public class HeartbeatHandler {
             params.put("version", Constants.VERSION);
             params.put("status", moduleManager.isActivated(Constants.MODULE_ID) ? "ACTIVE" : "FROZEN");
 
-            LogUtil.info("innerReport start" +
+            LogUtil.info("innerReport start   =======" +
                     "   host=" + ApplicationModel.instance().getMockServiceHost() +
                     "   params=" + JSON.toJSONString(params));
 

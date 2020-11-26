@@ -14,4 +14,5 @@ import lombok.Setter;
 public class ModuleInfoParams extends BaseParams {
 
     private String ip;
+    private String status;
 }

@@ -31,6 +31,8 @@ public interface ModuleInfoRepository extends JpaRepository<ModuleInfo, Long>, J
      */
     ModuleInfo findByAppName(String appName);
 
+    ModuleInfo findByAppNameAndEnvironment(String appName, String environment);
+
 
     ModuleInfo findByAppNameAndIp(String appName, String ip);
 }

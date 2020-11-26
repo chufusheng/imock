@@ -12,7 +12,16 @@ import com.alibaba.fastjson.JSONObject;
 public class ReturnObject {
 
     private String[] classNames;
-    private JSONObject returnData;
+
+    public String getReturnData() {
+        return returnData;
+    }
+
+    public void setReturnData(String returnData) {
+        this.returnData = returnData;
+    }
+
+    private String  returnData;
 
     public String[] getClassNames() {
         return classNames;
@@ -22,13 +31,6 @@ public class ReturnObject {
         this.classNames = classNames;
     }
 
-    public JSONObject getReturnData() {
-        return returnData;
-    }
-
-    public void setReturnData(JSONObject returnData) {
-        this.returnData = returnData;
-    }
 
 
 }

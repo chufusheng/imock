@@ -96,9 +96,11 @@ public class MockModule implements Module, ModuleLifecycle {
                 DefaultConfigManager configManager = new DefaultConfigManager();
                 MockResult<List<MockConfig>> pr = configManager.pullConfig();
                 if (pr.isSuccess()) {
-                    log.info("pull mock config success,config={}", pr.getData());
+                    log.info("pullConfig     success,   config ={}", pr.getData());
                     ClassloaderBridge.init(loadedClassDataSource);
                     initialize(pr.getData());
+                } else {
+                    log.warn("pullConfig     success    but is null, config    ={}", pr.getData());
                 }
             }
         });
@@ -127,21 +129,17 @@ public class MockModule implements Module, ModuleLifecycle {
                                      */
                                     @Override
                                     protected void afterReturning(Advice advice) throws Throwable {
-                                        LogUtil.info("advice        =====" + "returnObj= " + advice.getReturnObj().getClass() + "ParameterArray" + advice.getParameterArray());
-                                        LogUtil.info("mcReturnObj   =====" + mc.getReturnObj());
+                                        LogUtil.info("advice                ===== " + "returnObj: " + advice.getReturnObj().getClass() + " ParameterArray" + advice.getParameterArray());
+                                        LogUtil.info("mcReturnObj           ===== " + mc.getReturnObj());
 
 
                                         if (StringUtils.isNoneBlank(mc.getRuleConfig())) {
                                             if (JSON.toJSONString(advice.getParameterArray()).contains(mc.getRuleConfig())) {
-                                                ReturnObject ro = JSON.parseObject(mc.getReturnObj(), ReturnObject.class);
-                                                Class<Throwable> throwableClass = (Class<Throwable>) Class.forName((String) ro.getReturnData().get("exceptionName"));
-                                                ProcessController.throwsImmediately(throwableClass.newInstance());
+                                                returnObj(mc, advice);
                                             }
                                         } else {
                                             //      在此，返回相应的异常
-                                            ReturnObject ro = JSON.parseObject(mc.getReturnObj(), ReturnObject.class);
-                                            Class<Throwable> throwableClass = (Class<Throwable>) Class.forName((String) ro.getReturnData().get("exceptionName"));
-                                            ProcessController.throwsImmediately(throwableClass.newInstance());
+                                            returnObj(mc, advice);
                                         }
                                     }
                                 });
@@ -156,19 +154,16 @@ public class MockModule implements Module, ModuleLifecycle {
                                     @Override
                                     protected void afterReturning(Advice advice) throws Throwable {
 
-                                        LogUtil.info("advice        =======" + "returnObj= " + advice.getReturnObj().getClass() + "ParameterArray" + advice.getParameterArray());
-                                        LogUtil.info("mcReturnObj   =======" + mc.getReturnObj());
+                                        LogUtil.info("advice              =====" + "returnObj= " + advice.getReturnObj().getClass() + "ParameterArray" + advice.getParameterArray());
+                                        LogUtil.info("mcReturnObj         =====" + mc.getReturnObj());
 
 
                                         if (StringUtils.isNoneBlank(mc.getRuleConfig())) {
                                             if (JSON.toJSONString(advice.getParameterArray()).contains(mc.getRuleConfig())) {
-                                                Object res = JSON.parseObject(mc.getReturnObj(), advice.getReturnObj().getClass());
-                                                ProcessController.returnImmediately(res);
+                                                returnObj(mc, advice);
                                             }
                                         } else {
-                                            ReturnObject ro = JSON.parseObject(mc.getReturnObj(), ReturnObject.class);
-                                            Object res = BeansUtils.getInstance().parseByTypes(ro.getReturnData().toJSONString(), ro.getClassNames());
-                                            ProcessController.returnImmediately(res);
+                                            returnObj(mc, advice);
                                         }
                                     }
                                 });
@@ -181,6 +176,38 @@ public class MockModule implements Module, ModuleLifecycle {
                 log.error("error occurred when initialize module" + throwable);
             }
         }
+    }
+
+    public void returnObj(MockConfig mc, Advice advice) throws ProcessControlException {
+
+        ReturnObject ro = JSON.parseObject(mc.getReturnObj(), ReturnObject.class);
+        int classLength = ro.getClassNames().length;
+        switch (classLength) {
+            case 0:
+                ProcessController.returnImmediately(this.newObj(advice.getReturnObj().getClass().getName(), ro.getReturnData()));
+                break;
+            case 1:
+                Object res = JSON.parseObject(ro.getReturnData(), advice.getReturnObj().getClass());
+                ProcessController.returnImmediately(res);
+                break;
+            default:
+                Object res2 = BeansUtils.getInstance().parseByTypes(ro.getReturnData(), ro.getClassNames());
+                ProcessController.returnImmediately(res2);
+        }
+    }
+
+    public Object newObj(String className, Object... args) {
+        Class[] classes = new Class[args.length];
+        for (int i = 0; i < classes.length; i++) {
+            classes[i] = args[i].getClass();
+        }
+        Object obj = null;
+        try {
+            obj = Class.forName(className).getConstructor(classes).newInstance(args);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return obj;
     }
 
 
@@ -201,6 +228,11 @@ public class MockModule implements Module, ModuleLifecycle {
             writer.write(throwable.getMessage());
             initialized.compareAndSet(false, true);
         }
+    }
+
+    @Command("frozen")
+    public void frozen(final Map<String, String> req, final PrintWriter writer) {
+
     }
 
 

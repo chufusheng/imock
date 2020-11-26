@@ -70,13 +70,12 @@ public class HeartbeatHandler {
             params.put("version", Constants.VERSION);
             params.put("status", moduleManager.isActivated(Constants.MODULE_ID) ? "ACTIVE" : "FROZEN");
 
-            LogUtil.info("innerReport start   =======" +
-                    "   host=" + ApplicationModel.instance().getMockServiceHost() +
-                    "   params=" + JSON.toJSONString(params));
+            LogUtil.info2("innerReport start", "host=" + ApplicationModel.instance().getMockServiceHost() +
+                            "   params=" + JSON.toJSONString(params));
 
             HttpUtil.doPost(ApplicationModel.instance().getMockServiceHost() + "/module/report", params);
         } catch (ModuleException e) {
-            LogUtil.error("error  when  innerReport", e);
+            LogUtil.error2("error  when  innerReport", e.getMessage());
         }
     }
 }

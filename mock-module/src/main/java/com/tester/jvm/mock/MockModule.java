@@ -22,11 +22,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.io.PrintWriter;
 
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import static com.tester.jvm.mock.util.FileUtil.readLastRows;
 
 
 /**
@@ -96,7 +99,7 @@ public class MockModule implements Module, ModuleLifecycle {
                 DefaultConfigManager configManager = new DefaultConfigManager();
                 MockResult<List<MockConfig>> pr = configManager.pullConfig();
                 if (pr.isSuccess()) {
-                    log.info("pullConfig     success,   config ={}", pr.getData());
+                    LogUtil.info2("pullConfig success config", JSON.toJSONString(pr.getData()));
                     ClassloaderBridge.init(loadedClassDataSource);
                     initialize(pr.getData());
                 } else {
@@ -129,8 +132,8 @@ public class MockModule implements Module, ModuleLifecycle {
                                      */
                                     @Override
                                     protected void afterReturning(Advice advice) throws Throwable {
-                                        LogUtil.info("advice                ===== " + "returnObj: " + advice.getReturnObj().getClass() + " ParameterArray" + advice.getParameterArray());
-                                        LogUtil.info("mcReturnObj           ===== " + mc.getReturnObj());
+                                        LogUtil.info2("advice", "returnObj: " + advice.getReturnObj().getClass() + " ParameterArray" + advice.getParameterArray());
+                                        LogUtil.info2("mcReturnObj", mc.getReturnObj());
 
 
                                         if (StringUtils.isNoneBlank(mc.getRuleConfig())) {
@@ -154,8 +157,8 @@ public class MockModule implements Module, ModuleLifecycle {
                                     @Override
                                     protected void afterReturning(Advice advice) throws Throwable {
 
-                                        LogUtil.info("advice              =====" + "returnObj= " + advice.getReturnObj().getClass() + "ParameterArray" + advice.getParameterArray());
-                                        LogUtil.info("mcReturnObj         =====" + mc.getReturnObj());
+                                        LogUtil.info2("advice", "returnObj= " + advice.getReturnObj().getClass() + "ParameterArray" + advice.getParameterArray());
+                                        LogUtil.info2("mcReturnObj", mc.getReturnObj());
 
 
                                         if (StringUtils.isNoneBlank(mc.getRuleConfig())) {
@@ -230,9 +233,14 @@ public class MockModule implements Module, ModuleLifecycle {
         }
     }
 
-    @Command("frozen")
-    public void frozen(final Map<String, String> req, final PrintWriter writer) {
-
+    @Command("log")
+    public void logText(final Map<String, String> req, final PrintWriter writer) {
+        try {
+            writer.println(readLastRows("/Users/pro9q/logs/sandbox/mock/mock.log", null, 20));
+        } catch (IOException e) {
+            LogUtil.info2("getLog  Exception",e.getMessage());
+            writer.println("查询log异常");
+        }
     }
 
 

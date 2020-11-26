@@ -48,7 +48,6 @@ public class PathUtils {
             field.setAccessible(accessible);
             return file.getParentFile().getAbsolutePath();
         } catch (Throwable e) {
-            System.out.println(e);
             // ignore
         }
         return null;

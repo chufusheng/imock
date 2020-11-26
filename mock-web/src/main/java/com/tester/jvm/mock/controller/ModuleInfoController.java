@@ -70,6 +70,13 @@ public class ModuleInfoController {
         return moduleInfoService.reload(params);
     }
 
+
+    @ResponseBody
+    @RequestMapping("log")
+    public String log(@RequestBody ModuleInfoParams params) {
+        return moduleInfoService.log(params).getData();
+    }
+
     @ResponseBody
     @RequestMapping("frozenOrActive")
     public MockResult<String> frozenOrActive(@RequestBody ModuleInfoParams params) {

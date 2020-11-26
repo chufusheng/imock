@@ -28,7 +28,7 @@ public class BeansUtils {
                 types[i] = Class.forName(classNames[i]);
             }
         } catch (ClassNotFoundException e) {
-            LogUtil.error("ClassNotFoundException =======" + e.toString());
+            LogUtil.error("ClassNotFoundException", e.getMessage());
         }
         return JSONObject.parseObject(json, buildType(types));
     }

@@ -25,5 +25,8 @@ public interface ModuleInfoService {
 
     MockResult<String> reload(ModuleInfoParams params);
 
+    MockResult<String> log(ModuleInfoParams params);
+
+
 
 }

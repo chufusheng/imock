@@ -20,7 +20,7 @@ public class PropertyUtil {
 
     static {
         try {
-            LogUtil.info("PathUtils.getConfigPath()   ===== "+ com.tester.jvm.mock.util.PathUtils.getConfigPath());
+            LogUtil.info2("PathUtils.getConfigPath()", com.tester.jvm.mock.util.PathUtils.getConfigPath());
             InputStream is = new FileInputStream(new File(com.tester.jvm.mock.util.PathUtils.getConfigPath() + "/mock.properties"));
             properties.load(is);
         } catch (Exception e) {
@@ -39,7 +39,7 @@ public class PropertyUtil {
      */
 
     public static String getProperty(String key, String defaultValue) {
-        LogUtil.info("System.getProperties    ======== " + key + ":" + System.getProperty(key));
+        LogUtil.info2("System.getProperties", key + ":" + System.getProperty(key));
 
         String property = System.getProperty(key);
         if (StringUtils.isBlank(property)) {

@@ -36,6 +36,9 @@ public class ModuleInfoServiceImpl implements ModuleInfoService {
 
     private static String reloadURI = "http://%s:%s/sandbox/default/module/http/mock/reload";
 
+    private static String logURI = "http://%s:%s/sandbox/default/module/http/mock/log";
+
+
 
     private static String installBash = "sh %s/sandbox/bin/sandbox.sh -p %s -P 8820";
 
@@ -104,6 +107,17 @@ public class ModuleInfoServiceImpl implements ModuleInfoService {
         HttpUtil.Resp resp = HttpUtil.doGet(String.format(reloadURI, moduleInfo.getIp(), moduleInfo.getPort()));
         return ResultHelper.fs(resp.isSuccess());
     }
+
+    @Override
+    public MockResult<String> log(ModuleInfoParams params) {
+        ModuleInfo moduleInfo = moduleInfoDao.findByAppNameAndEnvironment(params.getAppName(), params.getEnvironment());
+        if (moduleInfo == null) {
+            return ResultHelper.fail("data not exist");
+        }
+        HttpUtil.Resp resp = HttpUtil.doGet(String.format(logURI, moduleInfo.getIp(), moduleInfo.getPort()));
+        return ResultHelper.success("success",resp.getBody());
+    }
+
 
     @Override
     public MockResult<String> install(ModuleInfoParams params) {

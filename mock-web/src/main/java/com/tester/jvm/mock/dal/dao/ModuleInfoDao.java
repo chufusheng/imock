@@ -65,7 +65,7 @@ public class ModuleInfoDao {
     }
 
     public ModuleInfo save(ModuleInfo params) {
-        ModuleInfo mi = moduleInfoRepository.findByAppName(params.getAppName());
+        ModuleInfo mi = moduleInfoRepository.findByAppNameAndEnvironment(params.getAppName(),params.getEnvironment());
         if (mi != null) {
             params.setId(mi.getId());
         }

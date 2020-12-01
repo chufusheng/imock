@@ -118,9 +118,9 @@ public class MockModule implements Module, ModuleLifecycle {
      * @param config 配置文件
      */
     private synchronized void initialize(List<MockConfig> config) {
-        if (initialized.compareAndSet(false, true)) {
+//        if (initialized.compareAndSet(false, true)) {
+        if (true) {
             try {
-
                 for (final MockConfig mc : config) {
                     if (mc.getIsThrows()) {
                         new EventWatchBuilder(eventWatcher)
@@ -223,22 +223,22 @@ public class MockModule implements Module, ModuleLifecycle {
     @Command("reload")
     public void reload(final Map<String, String> req, final PrintWriter writer) {
         try {
-            if (initialized.compareAndSet(true, false)) {
-                reload();
-                initialized.compareAndSet(false, true);
-            }
+//            if (initialized.compareAndSet(true, false)) {
+            reload();
+//                initialized.compareAndSet(false, true);
+//            }
         } catch (Throwable throwable) {
             writer.write(throwable.getMessage());
-            initialized.compareAndSet(false, true);
+//            initialized.compareAndSet(false, true);
         }
     }
 
     @Command("log")
     public void logText(final Map<String, String> req, final PrintWriter writer) {
         try {
-            writer.println(readLastRows("/Users/pro9q/logs/sandbox/mock/mock.log", null, 20));
+            writer.println(readLastRows(System.getProperty("user.home") + "/logs/sandbox/mock/mock.log", null, 50));
         } catch (IOException e) {
-            LogUtil.info2("getLog  Exception",e.getMessage());
+            LogUtil.info2("getLog  Exception", e.getMessage());
             writer.println("查询log异常");
         }
     }

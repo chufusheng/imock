@@ -175,7 +175,7 @@ public class MockModule implements Module, ModuleLifecycle {
                 log.info("initialize success");
 
             } catch (Throwable throwable) {
-                initialized.compareAndSet(true, false);
+//                initialized.compareAndSet(true, false);
                 log.error("error occurred when initialize module" + throwable);
             }
         }

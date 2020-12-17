@@ -11,8 +11,6 @@ public interface ModuleInfoService {
 
     PageResult<ModuleInfoBO> query(ModuleInfoParams params);
 
-    MockResult<ModuleInfoBO> query(String appName);
-
     MockResult<ModuleInfoBO> query(String appName, String ip);
 
     MockResult<ModuleInfoBO> report(ModuleInfoBO params);
@@ -27,6 +25,9 @@ public interface ModuleInfoService {
 
     MockResult<String> log(ModuleInfoParams params);
 
+    List<String> getAppNameList();
+
+    List<String> getAppEnvByAppNameList(String appName);
 
 
 }

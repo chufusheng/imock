@@ -38,10 +38,6 @@ public class ModuleConfigController {
     @GetMapping("get/list")
     @ResponseBody
     public PageResult<ModuleConfigBO> getList(@RequestParam String appName, @RequestParam String env) {
-        MockResult<ModuleInfoBO> moduleInfoBOMockResult = moduleInfoService.query(appName);
-        if (moduleInfoBOMockResult.getData().getStatus() == ModuleStatus.FROZEN) {
-            return null;
-        }
         ModuleConfigParams params = new ModuleConfigParams();
         params.setAppName(appName);
         params.setEnvironment(env);

@@ -35,10 +35,17 @@ public class ModuleInfoController {
     }
 
     @ResponseBody
-    @RequestMapping("get/byName")
-    public MockResult<ModuleInfoBO> list(@RequestBody String appName) {
-        return moduleInfoService.query(appName);
+    @RequestMapping("get/appName/list")
+    public List<String> getAppNameList() {
+        return moduleInfoService.getAppNameList();
     }
+
+    @ResponseBody
+    @RequestMapping("get/appEnv/list")
+    public List<String> getAppEnvByAppNameList(@RequestParam String appName) {
+        return moduleInfoService.getAppEnvByAppNameList(appName);
+    }
+
 
     @ResponseBody
     @PostMapping("report")

@@ -39,7 +39,6 @@ public class ModuleInfoServiceImpl implements ModuleInfoService {
     private static String logURI = "http://%s:%s/sandbox/default/module/http/mock/log";
 
 
-
     private static String installBash = "sh %s/sandbox/bin/sandbox.sh -p %s -P 8820";
 
     @Resource
@@ -64,11 +63,16 @@ public class ModuleInfoServiceImpl implements ModuleInfoService {
     }
 
     @Override
-    public MockResult<ModuleInfoBO> query(String appName) {
-        ModuleInfo byAppName = moduleInfoDao.findByAppName(appName);
-
-        return ResultHelper.success(moduleInfoConverter.convert(byAppName));
+    public List<String> getAppNameList() {
+        return moduleInfoDao.getAppNameList();
     }
+
+    @Override
+    public List<String> getAppEnvByAppNameList(String appName){
+        return moduleInfoDao.getAppEnvByAppNameList(appName);
+    }
+
+
 
     @Override
     public MockResult<ModuleInfoBO> query(String appName, String ip) {
@@ -97,7 +101,6 @@ public class ModuleInfoServiceImpl implements ModuleInfoService {
     }
 
 
-
     @Override
     public MockResult<String> reload(ModuleInfoParams params) {
         ModuleInfo moduleInfo = moduleInfoDao.findByAppNameAndEnvironment(params.getAppName(), params.getEnvironment());
@@ -115,7 +118,7 @@ public class ModuleInfoServiceImpl implements ModuleInfoService {
             return ResultHelper.fail("data not exist");
         }
         HttpUtil.Resp resp = HttpUtil.doGet(String.format(logURI, moduleInfo.getIp(), moduleInfo.getPort()));
-        return ResultHelper.success("success",resp.getBody());
+        return ResultHelper.success("success", resp.getBody());
     }
 
 

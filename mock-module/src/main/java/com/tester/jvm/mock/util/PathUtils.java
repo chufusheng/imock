@@ -54,7 +54,4 @@ public class PathUtils {
     }
 
 
-    public static void main(String[] args) {
-        String path = getModulePath();
-    }
 }

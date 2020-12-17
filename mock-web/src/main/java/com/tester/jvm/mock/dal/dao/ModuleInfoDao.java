@@ -65,7 +65,7 @@ public class ModuleInfoDao {
     }
 
     public ModuleInfo save(ModuleInfo params) {
-        ModuleInfo mi = moduleInfoRepository.findByAppNameAndEnvironment(params.getAppName(),params.getEnvironment());
+        ModuleInfo mi = moduleInfoRepository.findByAppNameAndEnvironment(params.getAppName(), params.getEnvironment());
         if (mi != null) {
             params.setId(mi.getId());
         }
@@ -78,5 +78,13 @@ public class ModuleInfoDao {
 
     public ModuleInfo findByAppNameAndIp(String appName, String ip) {
         return moduleInfoRepository.findByAppNameAndIp(appName, ip);
+    }
+
+    public List<String> getAppNameList() {
+        return moduleInfoRepository.getAppNameList();
+    }
+
+    public List<String> getAppEnvByAppNameList(String appName) {
+        return moduleInfoRepository.getAppEnvByAppNameList(appName);
     }
 }

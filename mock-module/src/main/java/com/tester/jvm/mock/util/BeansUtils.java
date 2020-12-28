@@ -33,6 +33,10 @@ public class BeansUtils {
         return JSONObject.parseObject(json, buildType(types));
     }
 
+    public Object parseByTypes(String json, Type[] types) {
+        return JSONObject.parseObject(json, buildType(types));
+    }
+
     public static Type buildType(Type[] types) {
         ParameterizedTypeImpl beforeType = null;
         if (types != null && types.length > 0) {

@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 @Service("ModuleInfoService")
 public class ModuleInfoServiceImpl implements ModuleInfoService {
 
-    private static String activeURI = "http://%s:%s/sandbox/default/module/http/sandbox-module-mgr/frozen?ids=mock";
+    private static String activeURI = "http://%s:%s/sandbox/default/module/http/sandbox-module-mgr/active?ids=mock";
 
     private static String frozenURI = "http://%s:%s/sandbox/default/module/http/sandbox-module-mgr/frozen?ids=mock";
 

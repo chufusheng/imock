@@ -25,6 +25,8 @@ import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -61,7 +63,7 @@ public class MockModule implements Module, ModuleLifecycle {
 
     private com.tester.jvm.mock.HeartbeatHandler heartbeatHandler;
 
-    private AtomicBoolean initialized = new AtomicBoolean(false);
+//    private AtomicBoolean initialized = new AtomicBoolean(false);
 
     @Override
     public void onLoad() throws Throwable {
@@ -132,17 +134,18 @@ public class MockModule implements Module, ModuleLifecycle {
                                      */
                                     @Override
                                     protected void afterReturning(Advice advice) throws Throwable {
-                                        LogUtil.info2("advice", "returnObj: " + advice.getReturnObj().getClass() + " ParameterArray" + advice.getParameterArray());
-                                        LogUtil.info2("mcReturnObj", mc.getReturnObj());
-
+                                        if (advice.getReturnObj() != null) {
+                                            LogUtil.info2("advice", "returnObj: " + advice.getReturnObj().getClass() + " ParameterArray" + advice.getParameterArray());
+                                            LogUtil.info2("mcReturnObj", mc.getReturnObj());
+                                        }
 
                                         if (StringUtils.isNoneBlank(mc.getRuleConfig())) {
                                             if (JSON.toJSONString(advice.getParameterArray()).contains(mc.getRuleConfig())) {
-                                                returnObj(mc, advice);
+                                                returnExceptionObj(mc, advice);
                                             }
                                         } else {
                                             //      在此，返回相应的异常
-                                            returnObj(mc, advice);
+                                            returnExceptionObj(mc, advice);
                                         }
                                     }
                                 });
@@ -159,7 +162,6 @@ public class MockModule implements Module, ModuleLifecycle {
 
                                         LogUtil.info2("advice", "returnObj= " + advice.getReturnObj().getClass() + "ParameterArray" + advice.getParameterArray());
                                         LogUtil.info2("mcReturnObj", mc.getReturnObj());
-
 
                                         if (StringUtils.isNoneBlank(mc.getRuleConfig())) {
                                             if (JSON.toJSONString(advice.getParameterArray()).contains(mc.getRuleConfig())) {
@@ -181,12 +183,20 @@ public class MockModule implements Module, ModuleLifecycle {
         }
     }
 
-    public void returnObj(MockConfig mc, Advice advice) throws ProcessControlException {
+    public void returnExceptionObj(MockConfig mc, Advice advice) throws Throwable {
+        ReturnObject ro = JSON.parseObject(mc.getReturnObj(), ReturnObject.class);
+        Class<Throwable> throwableClass = (Class<Throwable>) advice.getTarget().getClass().getClassLoader().loadClass(ro.getReturnData()).newInstance();
+//        Class<Throwable> throwableClass = (Class<Throwable>) Class.forName(ro.getReturnData());
+        ProcessController.throwsImmediately(throwableClass.newInstance());
+    }
+
+    public void returnObj(MockConfig mc, Advice advice) throws ProcessControlException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
 
         ReturnObject ro = JSON.parseObject(mc.getReturnObj(), ReturnObject.class);
         int classLength = ro.getClassNames().length;
         switch (classLength) {
             case 0:
+                ProcessController.returnImmediately(advice.getReturnObj().getClass().getConstructor(ro.getReturnData().getClass()).newInstance(ro.getReturnData()));
                 ProcessController.returnImmediately(this.newObj(advice.getReturnObj().getClass().getName(), ro.getReturnData()));
                 break;
             case 1:
@@ -194,10 +204,23 @@ public class MockModule implements Module, ModuleLifecycle {
                 ProcessController.returnImmediately(res);
                 break;
             default:
-                Object res2 = BeansUtils.getInstance().parseByTypes(ro.getReturnData(), ro.getClassNames());
+                Object res2 = BeansUtils.getInstance().parseByTypes(ro.getReturnData(), getTypes(ro.getClassNames(), advice));
                 ProcessController.returnImmediately(res2);
         }
     }
+
+    public Type[] getTypes(String[] classNames, Advice advice) {
+        Type[] types = new Type[classNames.length];
+        try {
+            for (int i = 0; i < classNames.length; i++) {
+                types[i] = advice.getTarget().getClass().getClassLoader().loadClass(classNames[i]);
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return types;
+    }
+
 
     public Object newObj(String className, Object... args) {
         Class[] classes = new Class[args.length];
@@ -260,14 +283,13 @@ public class MockModule implements Module, ModuleLifecycle {
         DefaultConfigManager configManager = new DefaultConfigManager();
         MockResult<List<MockConfig>> result = configManager.pullConfig();
         if (!result.isSuccess()) {
-            log.error("reload plugin failed, cause pull config not success");
+            log.error("reload failed, cause pull config not success");
             return;
         }
 
         // reWatch
-        initialize((List) result.getData());
+        initialize(result.getData());
         moduleController.active();
     }
-
 
 }

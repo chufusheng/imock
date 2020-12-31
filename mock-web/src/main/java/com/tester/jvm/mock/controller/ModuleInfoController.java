@@ -86,18 +86,16 @@ public class ModuleInfoController {
 
     @ResponseBody
     @RequestMapping("frozenOrActive")
-    public MockResult<String> frozenOrActive(@RequestBody ModuleInfoParams params) {
+    public MockResult<ModuleInfoBO> frozenOrActive(@RequestBody ModuleInfoParams params) {
         try {
             if (params.getStatus().equals("ACTIVE")) {
-                moduleInfoService.frozen(params);
+                return moduleInfoService.frozen(params);
             } else {
-                moduleInfoService.active(params);
+                return moduleInfoService.active(params);
             }
         } catch (Exception e) {
-            ResultHelper.fail();
+            return ResultHelper.fail();
         }
-
-        return ResultHelper.success();
     }
 
 

@@ -25,7 +25,7 @@ public class AppTask {
     @Resource
     private ModuleInfoConverter moduleInfoConverter;
 
-    @Scheduled(cron = "0/5 * * * * ?")
+    @Scheduled(cron = "0 0 0/1 * * ?")
     private void heartbeatTask() {
 
         List<ModuleInfo> moduleInfos = moduleInfoService.getListByStatus("ACTIVE");

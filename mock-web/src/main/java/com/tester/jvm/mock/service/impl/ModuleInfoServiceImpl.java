@@ -133,7 +133,7 @@ public class ModuleInfoServiceImpl implements ModuleInfoService {
         try {
             HttpUtil.Resp resp = HttpUtil.doGet(String.format(getHeartURI, moduleInfo.getIp(), moduleInfo.getPort()));
             if (resp.getCode() == 200) {
-                ResultHelper.success("success", true);
+                return ResultHelper.success("success", true);
             }
         } catch (Exception e) {
             return ResultHelper.success("success", false);

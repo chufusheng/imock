@@ -18,6 +18,8 @@ public enum ModuleStatus {
      */
     ACTIVE("已激活"),
     FROZEN("已冻结"),
+    OFFLINE("离线"),
+
     ;
 
     private static final Map<String, ModuleStatus> CACHED = new HashMap<>(2);

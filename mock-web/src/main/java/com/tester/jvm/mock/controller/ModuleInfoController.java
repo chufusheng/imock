@@ -103,11 +103,22 @@ public class ModuleInfoController {
 
     @GetMapping("test")
     @ResponseBody
-    public String test(@RequestParam int a) {
+    public Object test(@RequestParam String al, @RequestParam String b) {
         try {
-            return this.test1(a);
+            int a = Integer.valueOf(al);
+            if (b.equals("1")) {
+                return this.test1(a);
+            } else if (b.equals("2")) {
+                return this.test2(a);
+            } else if (b.equals("3")) {
+                return this.test3(a);
+            } else if (b.equals("4")) {
+                return this.test4(a);
+            }
+            return "null";
+
         } catch (Exception e) {
-            return e.toString();
+            return 404;
         }
     }
 
@@ -116,6 +127,24 @@ public class ModuleInfoController {
         List b = new ArrayList();
         b.add("1");
         return (String) b.get(a);
+    }
+
+
+    public int test2(int a) throws IndexOutOfBoundsException {
+        List b = new ArrayList();
+        b.add(1);
+        return (int) b.get(a);
+    }
+
+
+    public Long test3(int a) throws IndexOutOfBoundsException {
+        List b = new ArrayList();
+        b.add(1L);
+        return (Long) b.get(a);
+    }
+
+    public Boolean test4(int a) {
+        return false;
     }
 
 

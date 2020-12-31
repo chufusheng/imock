@@ -87,4 +87,12 @@ public class ModuleInfoDao {
     public List<String> getAppEnvByAppNameList(String appName) {
         return moduleInfoRepository.getAppEnvByAppNameList(appName);
     }
+
+    public List<ModuleInfo> getListByStatus(String status) {
+        return moduleInfoRepository.getListByStatus(status);
+    }
+
+    public int updateStateById(Long id, String status) {
+        return moduleInfoRepository.updateStateById(id,status);
+    }
 }

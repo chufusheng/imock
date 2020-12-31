@@ -196,12 +196,12 @@ public class MockModule implements Module, ModuleLifecycle {
         int classLength = ro.getClassNames().length;
         switch (classLength) {
             case 0:
-                ProcessController.returnImmediately(advice.getReturnObj().getClass().getConstructor(ro.getReturnData().getClass()).newInstance(ro.getReturnData()));
-                ProcessController.returnImmediately(this.newObj(advice.getReturnObj().getClass().getName(), ro.getReturnData()));
+                Object res = this.stringToObject(advice.getReturnObj().getClass(), ro.getReturnData());
+                ProcessController.returnImmediately(res);
                 break;
             case 1:
-                Object res = JSON.parseObject(ro.getReturnData(), advice.getReturnObj().getClass());
-                ProcessController.returnImmediately(res);
+                Object res1 = JSON.parseObject(ro.getReturnData(), advice.getReturnObj().getClass());
+                ProcessController.returnImmediately(res1);
                 break;
             default:
                 Object res2 = BeansUtils.getInstance().parseByTypes(ro.getReturnData(), getTypes(ro.getClassNames(), advice));
@@ -221,21 +221,34 @@ public class MockModule implements Module, ModuleLifecycle {
         return types;
     }
 
-
-    public Object newObj(String className, Object... args) {
-        Class[] classes = new Class[args.length];
-        for (int i = 0; i < classes.length; i++) {
-            classes[i] = args[i].getClass();
-        }
-        Object obj = null;
+    public Object stringToObject(Class classz, String args) throws NoSuchMethodException {
         try {
-            obj = Class.forName(className).getConstructor(classes).newInstance(args);
+            if (args == null || args.length() == 0 || args.equals("null")) {
+                return null;
+            } else if (String.class.equals(classz)) {
+                return args;
+            } else if (Integer.class.equals(classz) || int.class.equals(classz)) {
+                return Integer.valueOf(args);
+            } else if (Long.class.equals(classz) || long.class.equals(classz)) {
+                return Long.valueOf(args);
+            } else if (Double.class.equals(classz) || double.class.equals(classz)) {
+                return Double.valueOf(args);
+            } else if (Float.class.equals(classz) || float.class.equals(classz)) {
+                return Float.valueOf(args);
+            } else if (Short.class.equals(classz) || short.class.equals(classz)) {
+                return Short.valueOf(args);
+            } else if (Boolean.class.equals(classz) || boolean.class.equals(classz)) {
+                return Boolean.valueOf(args);
+            } else if (Byte.class.equals(classz) || byte.class.equals(classz)) {
+                return Byte.valueOf(args);
+            }
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtil.error2("基本类型对象转换错误", args + "    to    " + classz.getName());
+            throw new NoSuchMethodException();
         }
-        return obj;
-    }
+        throw new NoSuchMethodException();
 
+    }
 
     /**
      * 重新加载
@@ -259,7 +272,7 @@ public class MockModule implements Module, ModuleLifecycle {
     @Command("log")
     public void logText(final Map<String, String> req, final PrintWriter writer) {
         try {
-            writer.println(readLastRows(System.getProperty("user.home") + "/logs/sandbox/mock/mock.log", null, 50));
+            writer.println(readLastRows(System.getProperty("user.home") + "/logs/sandbox/mock/mock.log", null, 500));
         } catch (IOException e) {
             LogUtil.info2("getLog  Exception", e.getMessage());
             writer.println("查询log异常");
@@ -274,6 +287,15 @@ public class MockModule implements Module, ModuleLifecycle {
             heartbeatHandler.start();
         } catch (Throwable throwable) {
             log.error("heart error", throwable);
+        }
+    }
+
+    @Command("getAppHeart")
+    public void getAppHeart(final Map<String, String> req, final PrintWriter writer) {
+        try {
+            writer.println(true);
+        } catch (Throwable throwable) {
+            LogUtil.error2("get heart error", throwable.getMessage());
         }
     }
 

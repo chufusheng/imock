@@ -8,16 +8,13 @@ import com.tester.jvm.mock.dal.model.ModuleInfo;
 import com.tester.jvm.mock.service.ModuleInfoService;
 import com.tester.jvm.mock.service.convert.ModuleInfoConverter;
 import com.tester.jvm.mock.util.HttpUtil;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.*;
 import java.lang.management.ManagementFactory;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,6 +34,8 @@ public class ModuleInfoServiceImpl implements ModuleInfoService {
     private static String reloadURI = "http://%s:%s/sandbox/default/module/http/mock/reload";
 
     private static String logURI = "http://%s:%s/sandbox/default/module/http/mock/log";
+
+    private static String getHeartURI = "http://%s:%s/sandbox/default/module/http/mock/getAppHeart";
 
 
     private static String installBash = "sh %s/sandbox/bin/sandbox.sh -p %s -P 8820";
@@ -68,10 +67,9 @@ public class ModuleInfoServiceImpl implements ModuleInfoService {
     }
 
     @Override
-    public List<String> getAppEnvByAppNameList(String appName){
+    public List<String> getAppEnvByAppNameList(String appName) {
         return moduleInfoDao.getAppEnvByAppNameList(appName);
     }
-
 
 
     @Override
@@ -100,12 +98,16 @@ public class ModuleInfoServiceImpl implements ModuleInfoService {
         return execute(frozenURI, params, ModuleStatus.FROZEN);
     }
 
+    @Override
+    public List<ModuleInfo> getListByStatus(String status) {
+        return moduleInfoDao.getListByStatus(status);
+    }
 
     @Override
     public MockResult<String> reload(ModuleInfoParams params) {
         ModuleInfo moduleInfo = moduleInfoDao.findByAppNameAndEnvironment(params.getAppName(), params.getEnvironment());
         if (moduleInfo == null) {
-            return ResultHelper.fail("data not exist");
+            return ResultHelper.fail("moduleInfo  data  is null");
         }
         HttpUtil.Resp resp = HttpUtil.doGet(String.format(reloadURI, moduleInfo.getIp(), moduleInfo.getPort()));
         return ResultHelper.fs(resp.isSuccess());
@@ -115,12 +117,29 @@ public class ModuleInfoServiceImpl implements ModuleInfoService {
     public MockResult<String> log(ModuleInfoParams params) {
         ModuleInfo moduleInfo = moduleInfoDao.findByAppNameAndEnvironment(params.getAppName(), params.getEnvironment());
         if (moduleInfo == null) {
-            return ResultHelper.fail("data not exist");
+            return ResultHelper.fail("moduleInfo  data  is null");
         }
         HttpUtil.Resp resp = HttpUtil.doGet(String.format(logURI, moduleInfo.getIp(), moduleInfo.getPort()));
         return ResultHelper.success("success", resp.getBody());
     }
 
+
+    @Override
+    public MockResult<Boolean> getAppHeart(ModuleInfoBO params) {
+        ModuleInfo moduleInfo = moduleInfoDao.findByAppNameAndEnvironment(params.getAppName(), params.getEnvironment());
+        if (moduleInfo == null) {
+            return ResultHelper.fail("data not exist");
+        }
+        try {
+            HttpUtil.Resp resp = HttpUtil.doGet(String.format(getHeartURI, moduleInfo.getIp(), moduleInfo.getPort()));
+            if (resp.getCode() == 200) {
+                ResultHelper.success("success", true);
+            }
+        } catch (Exception e) {
+            return ResultHelper.success("success", false);
+        }
+        return ResultHelper.success("success", false);
+    }
 
     @Override
     public MockResult<String> install(ModuleInfoParams params) {

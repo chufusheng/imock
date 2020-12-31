@@ -44,4 +44,15 @@ public interface ModuleInfoRepository extends JpaRepository<ModuleInfo, Long>, J
     @Modifying
     @Query("select  DISTINCT environment from  ModuleInfo where appName=?1")
     List<String> getAppEnvByAppNameList(String appName);
+
+
+    @Modifying
+    @Query("select m  from  ModuleInfo m where status=?1")
+    List<ModuleInfo> getListByStatus(String status);
+
+    @Modifying
+    @Query("update ModuleInfo  set status=?2 where  id=?1")
+    int updateStateById(long id, String status);
 }
+//
+

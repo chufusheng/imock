@@ -4,6 +4,7 @@ import com.tester.jvm.mock.common.domain.MockResult;
 import com.tester.jvm.mock.common.domain.ModuleInfoBO;
 import com.tester.jvm.mock.common.domain.PageResult;
 import com.tester.jvm.mock.common.params.ModuleInfoParams;
+import com.tester.jvm.mock.dal.model.ModuleInfo;
 
 import java.util.List;
 
@@ -25,9 +26,12 @@ public interface ModuleInfoService {
 
     MockResult<String> log(ModuleInfoParams params);
 
+    MockResult<Boolean> getAppHeart(ModuleInfoBO params);
+
     List<String> getAppNameList();
 
     List<String> getAppEnvByAppNameList(String appName);
 
+    List<ModuleInfo> getListByStatus(String status);
 
 }

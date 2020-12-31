@@ -1,5 +1,7 @@
 ##ignore this file##
-/target/ 
+/target/
+/mock-web/target/
+/mock-module/target/
 .idea
 .classpath
 .project

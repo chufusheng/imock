@@ -184,6 +184,9 @@ public class MockModule implements Module, ModuleLifecycle {
     }
 
     public void returnExceptionObj(MockConfig mc, Advice advice) throws Throwable {
+        if(mc.getReturnObj().contains("{}")){
+            return;
+        }
         ReturnObject ro = JSON.parseObject(mc.getReturnObj(), ReturnObject.class);
         Class<Throwable> throwableClass = (Class<Throwable>) advice.getTarget().getClass().getClassLoader().loadClass(ro.getReturnData()).newInstance();
 //        Class<Throwable> throwableClass = (Class<Throwable>) Class.forName(ro.getReturnData());
@@ -191,7 +194,9 @@ public class MockModule implements Module, ModuleLifecycle {
     }
 
     public void returnObj(MockConfig mc, Advice advice) throws ProcessControlException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-
+        if(mc.getReturnObj().contains("{}")){
+            return;
+        }
         ReturnObject ro = JSON.parseObject(mc.getReturnObj(), ReturnObject.class);
         int classLength = ro.getClassNames().length;
         switch (classLength) {

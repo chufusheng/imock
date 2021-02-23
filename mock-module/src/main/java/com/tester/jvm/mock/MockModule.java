@@ -135,7 +135,7 @@ public class MockModule implements Module, ModuleLifecycle {
                                     @Override
                                     protected void afterReturning(Advice advice) throws Throwable {
                                         if (advice.getReturnObj() != null) {
-                                            LogUtil.info2("advice", "returnObj: " + advice.getReturnObj().getClass() + " ParameterArray" + advice.getParameterArray());
+                                            LogUtil.info2("advice", "returnObj: " + JSON.toJSONString(advice.getReturnObj()) + " ParameterArray" + JSON.toJSONString(advice.getParameterArray()));
                                             LogUtil.info2("mcReturnObj", mc.getReturnObj());
                                         }
 
@@ -160,7 +160,7 @@ public class MockModule implements Module, ModuleLifecycle {
                                     @Override
                                     protected void afterReturning(Advice advice) throws Throwable {
 
-                                        LogUtil.info2("advice", "returnObj= " + advice.getReturnObj().getClass() + "ParameterArray" + advice.getParameterArray());
+                                        LogUtil.info2("advice", "returnObj= " + JSON.toJSONString(advice.getReturnObj()) + "   ParameterArray" + JSON.toJSONString(advice.getParameterArray()));
                                         LogUtil.info2("mcReturnObj", mc.getReturnObj());
 
                                         if (StringUtils.isNoneBlank(mc.getRuleConfig())) {

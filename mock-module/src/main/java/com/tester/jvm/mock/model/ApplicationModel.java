@@ -38,8 +38,11 @@ public class ApplicationModel {
 
     private ApplicationModel() {
         // for example, you can define it your self
-        this.appName = getProperty("app.name", "unknown");
-        this.environment = getProperty("app.env", "unknown");
+        String nameAndEnv = getProperty("pinpoint.applicationName","unknown-unknown");
+        String[] nameAndEnvArr = nameAndEnv.split("-",2);//分割出来的字符数组
+
+        this.appName = getProperty("app.name", nameAndEnvArr[0]);
+        this.environment = getProperty("app.env", nameAndEnvArr[1]);
         this.mockServiceHost = getProperty("mock.host", "unknown");
 
         try {
@@ -112,4 +115,5 @@ public class ApplicationModel {
     public void setFusing(boolean fusing) {
         this.fusing = fusing;
     }
+
 }

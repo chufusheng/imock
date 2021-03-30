@@ -162,6 +162,7 @@ public class MockModule implements Module, ModuleLifecycle {
 
                                         LogUtil.info2("advice", "returnObj= " + JSON.toJSONString(advice.getReturnObj()) + "   ParameterArray" + JSON.toJSONString(advice.getParameterArray()));
                                         LogUtil.info2("mcReturnObj", mc.getReturnObj());
+                                        LogUtil.info2("System.getProperties()",JSON.toJSONString(System.getProperties()));
 
                                         if (StringUtils.isNoneBlank(mc.getRuleConfig())) {
                                             if (JSON.toJSONString(advice.getParameterArray()).contains(mc.getRuleConfig())) {

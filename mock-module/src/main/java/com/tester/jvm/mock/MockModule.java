@@ -185,7 +185,7 @@ public class MockModule implements Module, ModuleLifecycle {
     }
 
     public void returnExceptionObj(MockConfig mc, Advice advice) throws Throwable {
-        if(mc.getReturnObj().contains("{}")){
+        if(mc.getReturnObj().equals("{}")){
             return;
         }
         ReturnObject ro = JSON.parseObject(mc.getReturnObj(), ReturnObject.class);
@@ -195,7 +195,7 @@ public class MockModule implements Module, ModuleLifecycle {
     }
 
     public void returnObj(MockConfig mc, Advice advice) throws ProcessControlException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-        if(mc.getReturnObj().contains("{}")){
+        if(mc.getReturnObj().equals("{}")){
             return;
         }
         ReturnObject ro = JSON.parseObject(mc.getReturnObj(), ReturnObject.class);

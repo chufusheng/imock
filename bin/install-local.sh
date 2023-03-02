@@ -27,7 +27,7 @@ cp ./mock-logback.xml ${MOCK_TARGET_DIR}/cfg/mock-logback.xml &&
   cp ../mock-web/target/mock-web-*.jar ${MOCK_TARGET_DIR}/mock-web.jar
 
 # extract sandbox to ${HOME}
-#curl -s http://sandbox-ecological.oss-cn-hangzhou.aliyuncs.com/sandbox-1.2.1-bin.tar | tar xz -C ${HOME} || exit_on_err 1 "extract sandbox failed"
+curl -s curl -s https://kunchu.oss-cn-beijing.aliyuncs.com/sandbox-1.2.1-bin.tar | tar xz -C ${HOME} || exit_on_err 1 "extract sandbox failed" | tar xz -C ${HOME} || exit_on_err 1 "extract sandbox failed"
 echo "======        cp package to .sandbox-module       ======"
 
 # copy module to ~/.sandbox-module

@@ -22,7 +22,7 @@ main(){
     if [ ! -d ${MODULE_HOME} ]; then
         mkdir -p ${MODULE_HOME} || exit_on_err 1 "permission denied mkdir ${MODULE_HOME}"
     fi
-    curl -s https://kunchu.oss-cn-beijing.aliyuncs.com/mock-core-bin.tar | tar x -C ${MODULE_HOME} || exit_on_err 1 "extract troublemaker failed"
+    curl -s https://kunchu.oss-cn-beijing.aliyuncs.com/mock-core-bin.tar | tar zx -C ${MODULE_HOME} || exit_on_err 1 "extract troublemaker failed"
     echo "======                     install finished                    ======";
     variable=`jps | grep Bootstrap | awk  '{print $1}'`
     sh ${SANDBOX_HOME}/bin/sandbox.sh -p ${variable}

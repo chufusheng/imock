@@ -14,8 +14,10 @@ imock 包含mock-module、mock-web ,mock-module就是jvm-sandbox的模块，需�
 - 第二步：启动mock服务管理后台  mock-web 
 - 第三步：启动前端项目   imock-web
 - 第四步：安装mock-module（默认会安装jvm-sandbox）
-    1. 本地安装 到项目下的bin目录执行  install-local.sh
-    2. 远程安装到目标应用  curl -s https://kunchu.oss-cn-beijing.aliyuncs.com/install-troublemaker.sh |sh  
+    1. 本地安装 到项目下的bin目录执行 
+       sh package.sh    //打包模块
+       sh install-local.sh  //安装模块
+    2. 远程安装到目标应用  curl -s https://kunchu.oss-cn-beijing.aliyuncs.com/install-troublemaker.sh |sh //少用远程，里面的模块包有可能没有更新或者获取不到  
 - 第五步：配置目标应用
     1. 通过配置文件配置  进入根目录下的隐藏目录  ~/.sandbox-module/cfg  修改mock.properties  
     2. 启动目标应用时带上 java 环境变量-Dmock.host=http://127.0.0.1:8003 -Dapp.name=test -Dapp.env=test

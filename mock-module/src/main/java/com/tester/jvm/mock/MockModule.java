@@ -314,7 +314,8 @@ public class MockModule implements Module, ModuleLifecycle {
             log.error("reload failed, cause pull config not success");
             return;
         }
-        moduleManager.reset();
+//        moduleManager.reset();
+        moduleManager.flush(true);
 
         // reWatch
         initialize(result.getData());
